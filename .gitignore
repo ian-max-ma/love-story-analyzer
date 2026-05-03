@@ -1,0 +1,21 @@
+# 报告文件（含真实聊天内容，不要上传）
+*_report.html
+*.html
+
+# 解密后的数据库
+decrypted/
+*.db
+*.db-shm
+*.db-wal
+
+# Python 缓存
+__pycache__/
+*.pyc
+*.pyo
+
+# macOS
+.DS_Store
+
+# 临时文件
+*.tmp
+*.log
