@@ -11,7 +11,7 @@
 1. **基础可视化报告**（消息总览、词云、情感趋势、常规统计）
 2. **深度情感分析报告**（依恋模式、沟通质量、冲突追踪、感情里程碑、给我们的信）
 
-项目基于 wechat-decrypt 工具解密微信数据库，然后用 Python 分析聊天记录。（原 GitHub 仓库已删除，可在 Telegram 频道 https://t.me/wechat_decrypt 获取最新版本）
+项目基于 [wechat-decrypt](https://github.com/ylytdeng/wechat-decrypt) 工具解密微信数据库，然后用 Python 分析聊天记录。
 
 ---
 
