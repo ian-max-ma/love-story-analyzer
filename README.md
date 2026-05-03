@@ -14,7 +14,7 @@
 
 ### 1. 解密微信数据库
 
-参见 `WECHAT_ANALYSIS_PROMPT.md` 第一步。依赖 [wechat-decrypt](https://github.com/xaoyaoo/PyWxDump) 工具。
+参见 `WECHAT_ANALYSIS_PROMPT.md` 第一步。依赖 wechat-decrypt 工具（原 GitHub 已删除，可在 Telegram 频道 https://t.me/wechat_decrypt 获取）。
 
 ### 2. 安装依赖
 
@@ -58,4 +58,4 @@ python3 -m http.server 8080
 
 ---
 
-*基于 [wechat-decrypt](https://github.com/xaoyaoo/PyWxDump) 项目*
+*基于 wechat-decrypt 项目（Telegram: https://t.me/wechat_decrypt）*
