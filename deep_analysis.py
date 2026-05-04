@@ -20,7 +20,7 @@ from snownlp import SnowNLP
 DB_BASE  = "/path/to/decrypted/message"
 TABLE    = "Msg_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 OUTPUT   = "./deep_analysis_report.html"
-MY_IDS   = {0:9, 1:16, 2:98, 3:1}
+MY_IDS   = {0: 1, 1: 1, 2: 1, 3: 1}
 FONT_PATH = "/System/Library/Fonts/PingFang.ttc"
 
 PINK  = '#FF6B9D'; BLUE = '#4A90D9'; GOLD = '#FFB347'

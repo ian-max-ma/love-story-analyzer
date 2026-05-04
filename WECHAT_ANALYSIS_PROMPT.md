@@ -64,7 +64,7 @@ conn.close()
 ### 【需要你填写】
 
 ```
-我要分析的聊天对象：【填写备注名/微信名，例如：芝芝】
+我要分析的聊天对象：【填写备注名/微信名，例如：小明】
 关系：【例如：女朋友、好友、同事】
 大概的聊天时间跨度：【例如：2022年8月至今】
 ```
@@ -125,7 +125,7 @@ conn.close()
   message_2.db: 【填写，例如 98】
   message_3.db: 【填写，例如 1】
 
-聊天对象称呼：【填写，例如：芝芝】
+聊天对象称呼：【填写，例如：小明】
 关系描述：【填写，例如：女朋友，从大学同学开始认识的】
 时间跨度：【例如：2022年8月 ~ 2026年5月】
 总消息数（大约）：【例如：约24万条】
@@ -274,7 +274,7 @@ def decode_msg_type(t):
 ```
 
 **关于 sender_id 跨库不一致**
-每个 message_*.db 里"我"的 real_sender_id 可能不同（2，9，16，98 等），
+每个 message_*.db 里"我"的 real_sender_id 可能不同（每个库不一样，需要分别确认），
 需要分别确认，不能假设所有库里都是同一个 ID。
 
 **关于字体**
@@ -287,15 +287,15 @@ def decode_msg_type(t):
 ## 快速参考：我自己的项目配置（示例）
 
 ```python
-# 这是我分析"我和芝芝"时使用的配置，供参考
-DB_BASE   = "/Volumes/Elements/wechat-decrypt/decrypted/message"
-TABLE     = "Msg_4cc83afc7a34bc3d0be5c2213ea0b81d"
-MY_IDS    = {0: 9, 1: 16, 2: 98, 3: 1}  # key=DB编号, value=我的real_sender_id
-HER_LABEL = "芝芝"
-# DB0: 2025-07 ~ 2026-05  (51,330条)
-# DB1: 2024-07 ~ 2025-06  (44,404条)
-# DB2: 2023-07 ~ 2024-07  (79,160条)
-# DB3: 2022-08 ~ 2023-07  (64,172条)
+# 示例配置（请替换为你自己的参数）
+DB_BASE   = "/path/to/decrypted/message"
+TABLE     = "Msg_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+MY_IDS    = {0: 1, 1: 1, 2: 1, 3: 1}  # key=DB编号, value=我的real_sender_id
+HER_LABEL = "TA"
+# DB0: 时间段1（消息数量）
+# DB1: 时间段2（消息数量）
+# DB2: 时间段3（消息数量）
+# DB3: 时间段4（消息数量）
 ```
 
 ---

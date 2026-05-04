@@ -29,7 +29,7 @@ pip3 install jieba wordcloud matplotlib pandas numpy snownlp emoji plotly pillow
 ```python
 DB_BASE = "/path/to/decrypted/message"   # 解密后的数据库路径
 TABLE   = "Msg_xxxxxxxxxxxxxxxxxxxxxxxx"  # 消息表名（32位MD5）
-MY_IDS  = {0: 9, 1: 16, 2: 98, 3: 1}    # 各DB中"我"的 real_sender_id
+MY_IDS  = {0: 1, 1: 1, 2: 1, 3: 1}    # 各DB中"我"的 real_sender_id
 ```
 
 然后：
