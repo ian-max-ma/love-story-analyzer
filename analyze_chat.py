@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-微信聊天记录深度分析 - 我和芝芝（改进版）
+微信聊天记录深度分析 - 我和TA（改进版）
 """
 
 import sqlite3
@@ -26,10 +26,10 @@ from snownlp import SnowNLP
 import emoji
 
 # ─── 配置 ────────────────────────────────────────────────────────────
-DB_BASE = "/Volumes/Elements/wechat-decrypt/decrypted/message"
-TABLE   = "Msg_4cc83afc7a34bc3d0be5c2213ea0b81d"
-OUTPUT  = "/Volumes/Elements/wechat-decrypt/chat_analysis_report.html"
-MY_IDS  = {0: 9, 1: 16, 2: 98, 3: 1}
+DB_BASE = "/path/to/decrypted/message"
+TABLE   = "Msg_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+OUTPUT  = "./chat_analysis_report.html"
+MY_IDS  = {0: 1, 1: 1, 2: 1, 3: 1}
 FONT_PATH = "/System/Library/Fonts/PingFang.ttc"
 
 STOPWORDS = set([
@@ -184,7 +184,7 @@ fig, axes = plt.subplots(1, 2, figsize=(14, 5), facecolor=BG)
 # 左：饼图
 ax1 = axes[0]
 ax1.set_facecolor(BG)
-pie_labels = [f'我\n{me_count:,}条\n({me_pct:.1f}%)', f'芝芝\n{her_count:,}条\n({her_pct:.1f}%)']
+pie_labels = [f'我\n{me_count:,}条\n({me_pct:.1f}%)', f'TA\n{her_count:,}条\n({her_pct:.1f}%)']
 wedges, _ = ax1.pie(
     [me_count, her_count],
     labels=pie_labels, colors=[BLUE, PINK],
@@ -230,7 +230,7 @@ her_vals_m = monthly.get('her', pd.Series(0, index=monthly.index)).values
 ax.fill_between(x, me_vals_m,  alpha=0.15, color=BLUE)
 ax.fill_between(x, her_vals_m, alpha=0.15, color=PINK)
 ax.plot(x, me_vals_m,  color=BLUE, linewidth=2.5, marker='o', markersize=4, label='我',   zorder=3)
-ax.plot(x, her_vals_m, color=PINK, linewidth=2.5, marker='o', markersize=4, label='芝芝', zorder=3)
+ax.plot(x, her_vals_m, color=PINK, linewidth=2.5, marker='o', markersize=4, label='TA', zorder=3)
 
 # 峰值标注
 peak_idx = int(np.argmax(me_vals_m + her_vals_m))
@@ -269,7 +269,7 @@ ax.set_facecolor(BG)
 w = 0.38
 xh = np.arange(24)
 ax.bar(xh - w/2, hme,  w, label='我',   color=BLUE, alpha=0.82, edgecolor='white')
-ax.bar(xh + w/2, hher, w, label='芝芝', color=PINK, alpha=0.82, edgecolor='white')
+ax.bar(xh + w/2, hher, w, label='TA', color=PINK, alpha=0.82, edgecolor='white')
 # 深夜阴影
 ax.axvspan(-0.5, 4.5, alpha=0.06, color='#7C4DFF', zorder=0)
 ax.text(2, max(max(hme), max(hher)) * 0.93, '深夜', ha='center',
@@ -340,7 +340,7 @@ def get_word_freq(texts):
 
 me_texts  = text_df[text_df['sender'] == 'me']['content'].tolist()
 her_texts = text_df[text_df['sender'] == 'her']['content'].tolist()
-print(f"  文字消息 → 我: {len(me_texts):,}  芝芝: {len(her_texts):,}")
+print(f"  文字消息 → 我: {len(me_texts):,}  TA: {len(her_texts):,}")
 
 me_wf  = get_word_freq(me_texts)
 her_wf = get_word_freq(her_texts)
@@ -358,7 +358,7 @@ def make_wc(wf, colormap, title):
     return fig
 
 charts['wc_me']  = fig_to_b64(make_wc(me_wf,  'Blues',  '我的高频词云'))
-charts['wc_her'] = fig_to_b64(make_wc(her_wf, 'RdPu',   '芝芝的高频词云'))
+charts['wc_her'] = fig_to_b64(make_wc(her_wf, 'RdPu',   'TA的高频词云'))
 plt.close('all')
 
 # ═══════════════════════════════════════════════════════════════════════
@@ -409,7 +409,7 @@ ax.fill_between(xs, 0.5, sent_avg,
 ax.fill_between(xs, 0.5, sent_avg,
                 where=[s <  0.5 for s in sent_avg], alpha=0.12, color='#E74C3C', interpolate=True)
 ax.plot(xs, sent_me,  color=BLUE, linewidth=2,   label='我',   marker='o', markersize=3, zorder=3)
-ax.plot(xs, sent_her, color=PINK, linewidth=2,   label='芝芝', marker='o', markersize=3, zorder=3)
+ax.plot(xs, sent_her, color=PINK, linewidth=2,   label='TA', marker='o', markersize=3, zorder=3)
 ax.plot(xs, sent_avg, color='#888', linewidth=1.2, linestyle='--', label='综合', zorder=2)
 ax.axhline(0.5, color='#ccc', linewidth=1, linestyle=':')
 
@@ -516,7 +516,7 @@ ax1 = axes[0]
 ax1.set_facecolor(BG)
 clip = 150
 ax1.hist(me_len[me_len <= clip],  bins=40, alpha=0.65, color=BLUE, label=f'我 (中位{me_len.median():.0f}字)',  density=True)
-ax1.hist(her_len[her_len <= clip], bins=40, alpha=0.65, color=PINK, label=f'芝芝 (中位{her_len.median():.0f}字)', density=True)
+ax1.hist(her_len[her_len <= clip], bins=40, alpha=0.65, color=PINK, label=f'TA (中位{her_len.median():.0f}字)', density=True)
 ax1.set_title('消息长度分布', fontproperties=font_prop, fontsize=12, fontweight='bold')
 ax1.set_xlabel('字数（截断至150字）', fontproperties=font_prop)
 ax1.set_ylabel('概率密度', fontproperties=font_prop)
@@ -600,14 +600,14 @@ fig, ax = plt.subplots(figsize=(7, 7), subplot_kw=dict(polar=True), facecolor=BG
 ax.set_facecolor(BG)
 ax.plot(angles, me_n_c,  color=BLUE, linewidth=2, label='我')
 ax.fill(angles, me_n_c,  color=BLUE, alpha=0.18)
-ax.plot(angles, her_n_c, color=PINK, linewidth=2, label='芝芝')
+ax.plot(angles, her_n_c, color=PINK, linewidth=2, label='TA')
 ax.fill(angles, her_n_c, color=PINK, alpha=0.18)
 ax.set_xticks(angles[:-1])
 ax.set_xticklabels(categories, fontproperties=font_prop, fontsize=11)
 ax.set_yticks([25, 50, 75])
 ax.set_yticklabels(['25%', '50%', '75%'], fontproperties=font_prop, fontsize=8)
 ax.set_ylim(0, 100)
-ax.set_title('我 vs 芝芝 各项对比', fontproperties=font_prop, fontsize=13, fontweight='bold', pad=25)
+ax.set_title('我 vs TA 各项对比', fontproperties=font_prop, fontsize=13, fontweight='bold', pad=25)
 ax.legend(prop=font_prop, loc='upper right', bbox_to_anchor=(1.3, 1.1))
 plt.tight_layout()
 charts['radar'] = fig_to_b64(fig)
@@ -627,7 +627,7 @@ def get_msgs(start_dt=None, end_dt=None, n=120):
         sub = sub.sample(n, random_state=42).sort_values('datetime')
     msgs = []
     for _, row in sub.iterrows():
-        lbl = '我' if row['sender'] == 'me' else '芝芝'
+        lbl = '我' if row['sender'] == 'me' else 'TA'
         msgs.append((lbl, str(row['content'])))
     return msgs
 
@@ -698,23 +698,23 @@ plt.close()
 late_rate = late_count / total * 100
 
 if me_len.mean() > her_len.mean() * 1.12:
-    talky = f"消息长度来看你更话痨（你均 {me_len.mean():.0f} 字，芝芝均 {her_len.mean():.0f} 字）"
+    talky = f"消息长度来看你更话痨（你均 {me_len.mean():.0f} 字，TA均 {her_len.mean():.0f} 字）"
 elif her_len.mean() > me_len.mean() * 1.12:
-    talky = f"消息长度来看芝芝更话痨（芝芝均 {her_len.mean():.0f} 字，你均 {me_len.mean():.0f} 字）"
+    talky = f"消息长度来看TA更话痨（TA均 {her_len.mean():.0f} 字，你均 {me_len.mean():.0f} 字）"
 else:
-    talky = f"你们消息长度差不多（你均 {me_len.mean():.0f} 字，芝芝均 {her_len.mean():.0f} 字）"
+    talky = f"你们消息长度差不多（你均 {me_len.mean():.0f} 字，TA均 {her_len.mean():.0f} 字）"
 
 if initiate_me > initiate_her * 1.15:
-    initiative = f"主动发起对话上，你明显更主动（你 {initiate_me:,} 次，芝芝 {initiate_her:,} 次）"
+    initiative = f"主动发起对话上，你明显更主动（你 {initiate_me:,} 次，TA {initiate_her:,} 次）"
 elif initiate_her > initiate_me * 1.15:
-    initiative = f"主动发起对话上，芝芝更主动（芝芝 {initiate_her:,} 次，你 {initiate_me:,} 次）"
+    initiative = f"主动发起对话上，TA更主动（TA {initiate_her:,} 次，你 {initiate_me:,} 次）"
 else:
-    initiative = f"主动发起对话上你俩基本持平（你 {initiate_me:,} 次，芝芝 {initiate_her:,} 次）"
+    initiative = f"主动发起对话上你俩基本持平（你 {initiate_me:,} 次，TA {initiate_her:,} 次）"
 
 if avg_reply_her < avg_reply_me * 0.85:
-    reply_comment = "芝芝回复比你快一些，说明她在线时通常更积极。"
+    reply_comment = "TA回复比你快一些，说明她在线时通常更积极。"
 elif avg_reply_me < avg_reply_her * 0.85:
-    reply_comment = "你回复比芝芝快一些，说明你在聊天时更积极。"
+    reply_comment = "你回复比TA快一些，说明你在聊天时更积极。"
 else:
     reply_comment = "你们回复速度旗鼓相当，默契度不错。"
 
@@ -725,7 +725,7 @@ else:
 
 deep_analysis = f"""你们是 2022 年 8 月 19 日认识的。
 
-芝芝先通过了你的好友请求，然后你发了第一句"hihi"。从早期的聊天看，你们大概是同届同学，通过密码互加微信——开口就聊绩点、卷王，是那种初识时互相摸底的感觉。
+TA先通过了你的好友请求，然后你发了第一句"hihi"。从早期的聊天看，你们大概是同届同学，通过密码互加微信——开口就聊绩点、卷王，是那种初识时互相摸底的感觉。
 
 **感情发展脉络**
 
@@ -753,7 +753,7 @@ deep_analysis = f"""你们是 2022 年 8 月 19 日认识的。
 
 你——{"发消息偏简洁" if me_len.mean() < 12 else "有时候会多说几句"}，{"在聊天里比较主动" if initiate_me >= initiate_her else "不是那个一直先开口的人"}。从聊天方式猜，你是个话不多、但想说的时候会认真说的人。
 
-芝芝——{"消息也比较精简" if her_len.mean() < 12 else "喜欢多表达几句"}，活泼，表情包用得不少，从早期记录里能看出她是个情绪比较外露、直接的人。"[快哭了]""[大哭]"这类表情她用过很多次，高兴难过都不怎么藏。
+TA——{"消息也比较精简" if her_len.mean() < 12 else "喜欢多表达几句"}，活泼，表情包用得不少，从早期记录里能看出她是个情绪比较外露、直接的人。"[快哭了]""[大哭]"这类表情她用过很多次，高兴难过都不怎么藏。
 
 **总体评价**
 
@@ -801,7 +801,7 @@ html = f"""<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>我和芝芝的聊天记录分析 💕</title>
+<title>我和TA的聊天记录分析 💕</title>
 <style>
 *{{box-sizing:border-box;margin:0;padding:0}}
 body{{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;background:#FAF5F8;color:#2d2d2d;line-height:1.7}}
@@ -879,7 +879,7 @@ footer{{text-align:center;padding:32px;color:#bbb;font-size:.82em}}
 <body>
 
 <div class="hd">
-  <h1>💕 我和芝芝的聊天记录</h1>
+  <h1>💕 我和TA的聊天记录</h1>
   <p>2022年8月 — 2026年5月 · 数据分析报告</p>
   <p style="opacity:.75;font-size:.92em;margin-top:6px">共 {total:,} 条消息 · 横跨 {days_span} 天</p>
 </div>
@@ -910,7 +910,7 @@ footer{{text-align:center;padding:32px;color:#bbb;font-size:.82em}}
       <div class="row"><span>主动发起对话</span><b>{initiate_me:,} 次</b></div>
     </div>
     <div class="card card-her">
-      <h3>👧 芝芝</h3>
+      <h3>👧 TA</h3>
       <div class="row"><span>发送消息</span><b>{her_count:,} 条</b></div>
       <div class="row"><span>占比</span><b>{her_pct:.1f}%</b></div>
       <div class="row"><span>消息中位长度</span><b>{her_len.median():.0f} 字</b></div>
@@ -931,14 +931,14 @@ footer{{text-align:center;padding:32px;color:#bbb;font-size:.82em}}
   <p style="color:#888;margin-bottom:18px">使用 jieba 中文分词，过滤停用词后统计高频词汇</p>
   <div class="two">
     <div class="chart">{img('wc_me', '我的词云')}</div>
-    <div class="chart">{img('wc_her', '芝芝词云')}</div>
+    <div class="chart">{img('wc_her', 'TA词云')}</div>
   </div>
   <div class="hbox">
     <h4>我的高频词 Top20</h4>
     {''.join([f'<span class="tag tag-blue">{w}<small style="opacity:.7"> {c}</small></span>' for w, c in me_wf.most_common(20)])}
   </div>
   <div class="hbox" style="border-left-color:#9B59B6">
-    <h4 style="color:#9B59B6">芝芝的高频词 Top20</h4>
+    <h4 style="color:#9B59B6">TA的高频词 Top20</h4>
     {''.join([f'<span class="tag tag-pink">{w}<small style="opacity:.7"> {c}</small></span>' for w, c in her_wf.most_common(20)])}
   </div>
 </div>

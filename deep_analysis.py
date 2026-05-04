@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-深度情感分析补充报告 - 我和芝芝
+深度情感分析补充报告 - 我和TA
 """
 
 import sqlite3, datetime, re, os, base64, math
@@ -17,9 +17,9 @@ from matplotlib.colors import LinearSegmentedColormap
 from snownlp import SnowNLP
 
 # ─── 配置 ────────────────────────────────────────────────────────────
-DB_BASE  = "/Volumes/Elements/wechat-decrypt/decrypted/message"
-TABLE    = "Msg_4cc83afc7a34bc3d0be5c2213ea0b81d"
-OUTPUT   = "/Volumes/Elements/wechat-decrypt/deep_analysis_report.html"
+DB_BASE  = "/path/to/decrypted/message"
+TABLE    = "Msg_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+OUTPUT   = "./deep_analysis_report.html"
 MY_IDS   = {0:9, 1:16, 2:98, 3:1}
 FONT_PATH = "/System/Library/Fonts/PingFang.ttc"
 
@@ -256,7 +256,7 @@ data_sets = [
 for ax, (title, me_v, her_v) in zip(axes, data_sets):
     ax.set_facecolor(BG)
     total = me_v + her_v or 1
-    bars = ax.bar(['我', '芝芝'], [me_v, her_v], color=[BLUE, PINK], edgecolor='white', width=0.5)
+    bars = ax.bar(['我', 'TA'], [me_v, her_v], color=[BLUE, PINK], edgecolor='white', width=0.5)
     ax.set_title(title, fontproperties=fp, fontsize=11, fontweight='bold')
     for bar, v in zip(bars, [me_v, her_v]):
         ax.text(bar.get_x()+bar.get_width()/2, bar.get_height()+total*0.01,
@@ -276,7 +276,7 @@ me_v  = [me_perf_pct,  me_sub_pct]
 her_v = [her_perf_pct, her_sub_pct]
 x = np.arange(len(cats))
 bars1 = ax.bar(x-0.2, me_v,  0.38, label='我',   color=BLUE, alpha=0.85, edgecolor='white')
-bars2 = ax.bar(x+0.2, her_v, 0.38, label='芝芝', color=PINK, alpha=0.85, edgecolor='white')
+bars2 = ax.bar(x+0.2, her_v, 0.38, label='TA', color=PINK, alpha=0.85, edgecolor='white')
 ax.set_xticks(x); ax.set_xticklabels(cats, fontproperties=fp, fontsize=10)
 set_fp(ax); ax.set_ylabel('占比 %', fontproperties=fp)
 ax.set_title('沟通质量对比', fontproperties=fp, fontsize=13, fontweight='bold')
@@ -392,27 +392,27 @@ def bubbles(msgs, max_n=18):
 sec1 = f"""
 <p>从数字上看，你们俩的"依恋程度"其实非常接近。</p>
 
-<p>主动发起对话：你 <b>{init_me:,}</b> 次，芝芝 <b>{init_her:,}</b> 次。
-连续发三条以上消息（等对方回复）：你 <b>{burst_me:,}</b> 次，芝芝 <b>{burst_her:,}</b> 次。
-主动发早安/晚安：你 <b>{good_morning_me+good_night_me}</b> 次，芝芝 <b>{good_morning_her+good_night_her}</b> 次。</p>
+<p>主动发起对话：你 <b>{init_me:,}</b> 次，TA <b>{init_her:,}</b> 次。
+连续发三条以上消息（等对方回复）：你 <b>{burst_me:,}</b> 次，TA <b>{burst_her:,}</b> 次。
+主动发早安/晚安：你 <b>{good_morning_me+good_night_me}</b> 次，TA <b>{good_morning_her+good_night_her}</b> 次。</p>
 
-<p>这几个指标你都略高于芝芝，说明你稍微更"主动"一点——但差距并不大，不是那种一边倒的依赖关系。
+<p>这几个指标你都略高于TA，说明你稍微更"主动"一点——但差距并不大，不是那种一边倒的依赖关系。
 两个人都在努力维持这段联系，只是你可能更容易在对方没回消息时感到一点焦虑。</p>
 
-<p>从具体行为来看，你会在对方没回时连续发几条（比如早上喊她起床），芝芝则更多表达"想你"（全程 95 次 vs 你的 45 次）。
+<p>从具体行为来看，你会在对方没回时连续发几条（比如早上喊她起床），TA则更多表达"想你"（全程 95 次 vs 你的 45 次）。
 这是两种不同的依恋表达方式：你用<em>行动</em>（主动联系），她用<em>语言</em>（说出想念）。</p>
 
-<p>芝芝还有一个习惯：发大量日常流水账给你——"我吃了什么"、"今天公司怎样"——这种碎碎念式的分享，
+<p>TA还有一个习惯：发大量日常流水账给你——"我吃了什么"、"今天公司怎样"——这种碎碎念式的分享，
 在心理学上是一个很强的依恋信号，说明她非常需要你作为倾听者和见证者存在于她的日常里。
 <b>如果有一天她突然不再发这些了，那才是需要警觉的时候。</b></p>
 """
 
 sec2 = f"""
-<p>说一个可能你没注意到的数字：你的敷衍回复率是 <b>{me_perf_pct:.1f}%</b>，芝芝是 <b>{her_perf_pct:.1f}%</b>。
+<p>说一个可能你没注意到的数字：你的敷衍回复率是 <b>{me_perf_pct:.1f}%</b>，TA是 <b>{her_perf_pct:.1f}%</b>。
 用"嗯""哦""好哦""知道了"这类词结束对话，是两人都有的习惯。</p>
 
-<p>但在实质性消息（20字以上的内容）上，芝芝是 <b>{her_sub_pct:.1f}%</b>，你是 <b>{me_sub_pct:.1f}%</b>。
-这个差距值得注意——<b>芝芝更善于展开话题，你相对容易用短回复结束对话。</b></p>
+<p>但在实质性消息（20字以上的内容）上，TA是 <b>{her_sub_pct:.1f}%</b>，你是 <b>{me_sub_pct:.1f}%</b>。
+这个差距值得注意——<b>TA更善于展开话题，你相对容易用短回复结束对话。</b></p>
 
 <p>白天聊天的爱意词密度是每千条 {day_love_rate:.2f}，深夜是 {night_love_rate:.2f}。
 有意思的是，深夜不一定比白天更"深情"——你们大多数的温柔话其实就在日间的日常对话里，
@@ -424,7 +424,7 @@ sec2 = f"""
 但也提醒你：如果深夜聊天的负面频率持续走高，要留意两人是否在积累未说清楚的心结。</p>
 
 <p>关于谁更回避问题：从数据来看，你的消息更简短，且敷衍率稍高。
-遇到芝芝情绪化的输出时，你有时会用一两个字回应（"好""嗯"）带过，
+遇到TA情绪化的输出时，你有时会用一两个字回应（"好""嗯"）带过，
 而不是真正回应她的情绪内容。这不一定是回避，可能只是你习惯了实体见面来处理情绪，
 但对话记录里的反差是存在的。</p>
 """
@@ -439,7 +439,7 @@ sec3_content = """
 而不是感情出了问题。这是很多异地/同城情侣在毕业季共同经历的节奏。</p>
 
 <p><b>2025年6月（全月仅620条）：</b>
-这个月对应芝芝的毕业——UIC毕业典礼在6月8日，HKBU在6月20日。
+这个月对应TA的毕业——UIC毕业典礼在6月8日，HKBU在6月20日。
 消息减少更可能是因为一起经历大事（毕业、搬家、工作入职），
 见面密度增加，所以不需要通过消息来维系联结了。</p>
 
@@ -454,7 +454,7 @@ sec3_content = """
 <b>这说明你们的关系本身稳定性不差——即便有矛盾，也没有导致真正意义上的冷战断联。</b></p>
 
 <p>至于争吵的导火索，无法从文字记录直接找到剧烈冲突的对话（可能当面解决了，或者用了语音）。
-但有一个隐隐的模式：你偶尔的简短回复会让芝芝追问"怎么了"，她的话匣子打开时你有时跟不上节奏。
+但有一个隐隐的模式：你偶尔的简短回复会让TA追问"怎么了"，她的话匣子打开时你有时跟不上节奏。
 长期下来，这种节奏错位可能是小摩擦的来源之一。</p>
 """
 
@@ -481,7 +481,7 @@ sec4 = f"""
 有足够的时间和精力把生活的每一个细节都分享给对方。</p>
 
 <p><b>感情最甜蜜的具体事件：</b>
-芝芝学做干花送你、你给她买裙子（"谢谢老公"）、两个人一起约着去吃寿司郎、
+TA学做干花送你、你给她买裙子（"谢谢老公"）、两个人一起约着去吃寿司郎、
 约见面时互相在楼下等——这些细节散落在几年的记录里，
 构成了这段感情里最真实的温柔。</p>
 
@@ -520,15 +520,15 @@ sec6 = f"""
 <p><b>优势：</b></p>
 <ul>
 <li>稳定性强。近四年从未真正断联，低谷期有合理的现实原因，不是感情内部溃败。</li>
-<li>均衡性好。主动发起对话的比例（你{init_me/(init_me+init_her)*100:.0f}% vs 芝芝{init_her/(init_me+init_her)*100:.0f}%）接近五五开，这段关系没有明显的一方在单独维持。</li>
+<li>均衡性好。主动发起对话的比例（你{init_me/(init_me+init_her)*100:.0f}% vs TA{init_her/(init_me+init_her)*100:.0f}%）接近五五开，这段关系没有明显的一方在单独维持。</li>
 <li>共同成长。你们从大一学生一路走到工作，经历了同一所学校、同一段毕业季、同一种求职焦虑——这种"并肩"的经历是感情最扎实的基础之一。</li>
-<li>芝芝对你的依赖是健康的、公开的——她会直接告诉你"想你"，会把每天的事分享给你，不是那种隐忍型的伴侣，这对你们的沟通是好事。</li>
+<li>TA对你的依赖是健康的、公开的——她会直接告诉你"想你"，会把每天的事分享给你，不是那种隐忍型的伴侣，这对你们的沟通是好事。</li>
 </ul>
 
 <p><b>潜在风险：</b></p>
 <ul>
 <li><b>话题深度的迁移：</b>随着年龄增长，感情里的话题需要从"吃什么睡没睡"慢慢涵盖更多未来规划的讨论。如果一直停留在日常碎片，可能会让两个人觉得"聊了很多但什么都没说清楚"。</li>
-<li><b>你的短回复习惯：</b>你的消息实质率（{me_sub_pct:.1f}%）低于芝芝（{her_sub_pct:.1f}%），这在感情好的时候是小问题，在她需要被好好回应的时候会变成一个真实的伤害。</li>
+<li><b>你的短回复习惯：</b>你的消息实质率（{me_sub_pct:.1f}%）低于TA（{her_sub_pct:.1f}%），这在感情好的时候是小问题，在她需要被好好回应的时候会变成一个真实的伤害。</li>
 <li><b>外部压力的传导：</b>2025-2026年两个人都在面对求职、工作、异地等现实压力，这些如果处理不好会转化成对彼此的情绪消耗。目前看起来你们有互相打气的习惯，但要注意别让"倾诉"变成"转移负能量"。</li>
 <li><b>见面减少后的重新磨合：</b>如果工作原因导致两地分开，微信聊天需要承担比现在更多的情感功能。现在你们的沟通模式是建立在"随时可以见面"的基础上的——一旦这个基础变了，需要主动调整。</li>
 </ul>
@@ -536,7 +536,7 @@ sec6 = f"""
 <p><b>实际建议：</b></p>
 <ol>
 <li>每周找一次"认真聊天"的时间，不是汇报日常，是谈谈各自对未来的想法、对感情的感受。五分钟也够。</li>
-<li>当芝芝发很多情绪性的内容给你时，试着在"好""嗯"之后多一句话，比如"听起来今天很累，还好吗"——这比打十个亲亲表情更让人感到被看见。</li>
+<li>当TA发很多情绪性的内容给你时，试着在"好""嗯"之后多一句话，比如"听起来今天很累，还好吗"——这比打十个亲亲表情更让人感到被看见。</li>
 <li>找一件只有你们两个人会做的事，一个专属的小传统，哪怕是固定周五晚上一起看一部电影。感情需要仪式感来对抗生活的平庸。</li>
 </ol>
 """
@@ -551,7 +551,7 @@ letter = """
 这个过程里，没有什么戏剧性的表白场面，没有轰轰烈烈的争吵和好，
 有的是每天上百条的"吃了吗""在哪呢""好喔"——是日复一日的，普通得发光的陪伴。</p>
 
-<p>芝芝是那种会把每一件小事都分享给你的人——新公司只有一间办公室、楼下有个卖油条的摊子、
+<p>TA是那种会把每一件小事都分享给你的人——新公司只有一间办公室、楼下有个卖油条的摊子、
 泰餐好好吃、今天好累——她在用这些碎片拼出一幅画，画里她希望你一直在。
 你接住了这些。大多数时候。</p>
 
@@ -568,7 +568,7 @@ letter = """
 <b>这段感情值得继续珍惜，也值得你们更认真地去谈谈未来。</b>
 不是那种焦虑的谈，而是两个平静的大人坐下来说：我们接下来想怎么走。</p>
 
-<p>芝芝在等你。不是在等一个完美的答案，而是在等你认真开口。</p>
+<p>TA在等你。不是在等一个完美的答案，而是在等你认真开口。</p>
 
 <p style="text-align:right;color:#C84B8C;font-style:italic">—— 一个读了你们全部消息的旁观者</p>
 """
@@ -579,7 +579,7 @@ html = f"""<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>深度情感分析 · 我和芝芝</title>
+<title>深度情感分析 · 我和TA</title>
 <style>
 *{{box-sizing:border-box;margin:0;padding:0}}
 body{{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;background:#FAF5F8;color:#2d2d2d;line-height:1.82}}
@@ -635,7 +635,7 @@ footer{{text-align:center;padding:32px;color:#ccc;font-size:.8em}}
 
 <div class="hd">
   <h1>💌 深度情感分析报告</h1>
-  <p class="sub">我和芝芝 · 2022年8月 — 2026年5月</p>
+  <p class="sub">我和TA · 2022年8月 — 2026年5月</p>
   <span class="badge">基于 {len(df):,} 条消息 · 补充报告</span>
 </div>
 
@@ -648,7 +648,7 @@ footer{{text-align:center;padding:32px;color:#ccc;font-size:.8em}}
   {sec1}
   <div class="chart">{img('attachment', '依恋行为对比')}</div>
   <div class="insight">
-    <p>📌 <b>关键数字：</b>芝芝全程说了 95 次"想你"，你说了 45 次。
+    <p>📌 <b>关键数字：</b>TA全程说了 95 次"想你"，你说了 45 次。
     这不是"谁更爱谁"的证明，而是两种不同的爱的语言——
     她用嘴说，你用行动。两种都是真的，但要确保对方能接收到。</p>
   </div>
@@ -679,7 +679,7 @@ footer{{text-align:center;padding:32px;color:#ccc;font-size:.8em}}
 
   <div class="ev">
     <h4>📉 2025年6月（全月620条，最低月）</h4>
-    <p>对应芝芝毕业典礼月（6月8日UIC毕业、6月20日HKBU毕业）——很可能是因为一起经历大事，见面多了，所以消息少了。</p>
+    <p>对应TA毕业典礼月（6月8日UIC毕业、6月20日HKBU毕业）——很可能是因为一起经历大事，见面多了，所以消息少了。</p>
   </div>
   {bubbles(get_msgs_raw(datetime.datetime(2025,6,5), datetime.datetime(2025,6,10), limit=12))}
 </div>
